@@ -41,23 +41,23 @@ with app.app_context():
         users.append(user)
 
     db.session.add_all(users)
+    db.session.commit()
 
     print("Creating recipes...")
     recipes = []
     for i in range(100):
-        instructions = fake.paragraph(nb_sentences=8)
-        
         recipe = Recipe(
             title=fake.sentence(),
-            instructions=instructions,
-            minutes_to_complete=randint(15,90),
+            instructions=fake.paragraph(nb_sentences=8),
+            minutes_to_complete=randint(15, 90),
         )
 
-        recipe.user = rc(users)
+        # Associate the recipe with a random user
+        assigned_user = rc(users)
+        assigned_user.recipes.append(recipe)  # Add the recipe to the user's recipe collection
 
         recipes.append(recipe)
 
-    db.session.add_all(recipes)
-    
+    db.session.add_all(recipes)  # Ensure all recipes are added to the session
     db.session.commit()
     print("Complete.")
