@@ -80,3 +80,5 @@ class Recipe(db.Model, SerializerMixin):
                 # Raise an exception or handle it in a way that suits your application
                 raise ValueError("No users available to assign as default.")
         return user_id
+    
+    
